@@ -21,11 +21,15 @@ class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    username = db.Column(db.String(80), unique=False, nullable=False) 
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    people = db.relationship("Person", secondary=favorites_people)
-    planets = db.relationship("Planet", secondary=favorites_planets)
-    starships = db.relationship("Starship", secondary=favorites_starships)
+    people = db.relationship("Person", secondary=favorites_people, lazy='subquery',
+        backref=db.backref('people', lazy=True))
+    planets = db.relationship("Planet", secondary=favorites_planets, lazy='subquery',
+        backref=db.backref('planets', lazy=True))
+    starships = db.relationship("Starship", secondary=favorites_starships, lazy='subquery',
+        backref=db.backref('starships', lazy=True))
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -34,6 +38,7 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
+            "favorite_people": list(map(lambda x: x.serialize(), self.people))
             # do not serialize the password, its a security breach
         }                               
 
@@ -43,7 +48,6 @@ class Person(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     # one to one with planet for homeworld
     homeworld_id = db.Column(db.Integer, db.ForeignKey('planets.id'))
-    homeworld = db.relationship("Planet", back_populates="people")
     height = db.Column(db.String(50))
     mass = db.Column(db.String(50))
     hair_color = db.Column(db.String(50))
@@ -54,12 +58,19 @@ class Person(db.Model):
     name = db.Column(db.String(50), nullable=False)
     photo_url: db.Column(db.String)      
 
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "homeworld": self.homeworld.name
+        }   
+
 class Planet(db.Model):
     __tablename__ = 'planets'
     # Here we define columns for the Planets   
     id = db.Column(db.Integer, primary_key=True)
     # relationship for the homeworld for people
-    people = db.relationship("Person", uselist=False)
+    people = db.relationship("Person", backref='homeworld', lazy=True)
     diameter = db.Column(db.String(50))
     rotation_period = db.Column(db.String(50))
     orbital_period = db.Column(db.String(50))
