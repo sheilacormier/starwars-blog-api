@@ -5,16 +5,16 @@ db = SQLAlchemy()
 
 # Define association tables to create a many to many for the favorites
 favorites_people = db.Table('user_people', db.Model.metadata,
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('person_id', db.Integer, db.ForeignKey('people.id'))
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+    db.Column('person_id', db.Integer, db.ForeignKey('people.id'), primary_key=True)
 )
 favorites_planets = db.Table('user_planets', db.Model.metadata,
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('planets_id', db.Integer, db.ForeignKey('planets.id'))
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+    db.Column('planets_id', db.Integer, db.ForeignKey('planets.id'), primary_key=True)
 )
 favorites_starships = db.Table('user_starships', db.Model.metadata,
-    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('starships_id', db.Integer, db.ForeignKey('starships.id'))
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+    db.Column('starships_id', db.Integer, db.ForeignKey('starships.id'), primary_key=True)
 )
 
 class User(db.Model):
