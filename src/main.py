@@ -40,45 +40,59 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-@app.route('/people', methods=['GET'])
+
+@app.route('/people', methods=['POST'])
 def handle_hello():
     user = User.query.get(1)
     response_body = {
-        "msg": "Hello, this is your GET /user response ",
-        "people": user.serialize()
-    }
-
-    return jsonify(response_body), 200 
-
-@app.route('/people', methods=['GET'])
-def handle_hello():
-    user = User.query.get(1)
-    response_body = {
-        "msg": "Hello, this is your GET /user response ",
-        "user": user.serialize()
+        "msg": "Hello, this is your POST /people response ",
+        "people": people.serialize()
     }
 
     return jsonify(response_body), 200
 
-@app.route('/planet', methods=['GET'])
+@app.route('/planet', methods=['POST'])
 def handle_hello():
     user = User.query.get(1)
     response_body = {
-        "msg": "Hello, this is your GET /user response ",
-        "planet": user.serialize()
+        "msg": "Hello, this is your POST /planet response ",
+        "planet": planet.serialize()
     }
 
     return jsonify(response_body), 200    
 
-@app.route('/starship', methods=['GET'])
+@app.route('/starship', methods=['POST'])
 def handle_hello():
     user = User.query.get(1)
     response_body = {
-        "msg": "Hello, this is your GET /user response ",
-        "starship": user.serialize()
+        "msg": "Hello, this is your POST /starship response ",
+        "starship": starship.serialize()
     }
 
     return jsonify(response_body), 200  
+
+
+@app.route('/people/<int:id>', methods=['DELETE'])
+def delete_people(id):
+    people.pop(id)
+    return jsonify(people), 200
+
+
+@app.route('/planet/<int:id>', methods=['DELETE'])
+def delete_planet(id):
+    planet.pop(id)
+    return jsonify(planet), 200
+
+
+@app.route('/starship/<int:id>', methods=['DELETE'])
+def delete_starship(id):
+    starship.pop(id)
+    return jsonify(starship), 200  
+
+
+
+
+
 
 
 # this only runs if `$ python src/main.py` is executed
