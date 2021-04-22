@@ -40,6 +40,47 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+@app.route('/people', methods=['GET'])
+def handle_hello():
+    user = User.query.get(1)
+    response_body = {
+        "msg": "Hello, this is your GET /user response ",
+        "people": user.serialize()
+    }
+
+    return jsonify(response_body), 200 
+
+@app.route('/people', methods=['GET'])
+def handle_hello():
+    user = User.query.get(1)
+    response_body = {
+        "msg": "Hello, this is your GET /user response ",
+        "user": user.serialize()
+    }
+
+    return jsonify(response_body), 200
+
+@app.route('/planet', methods=['GET'])
+def handle_hello():
+    user = User.query.get(1)
+    response_body = {
+        "msg": "Hello, this is your GET /user response ",
+        "planet": user.serialize()
+    }
+
+    return jsonify(response_body), 200    
+
+@app.route('/starship', methods=['GET'])
+def handle_hello():
+    user = User.query.get(1)
+    response_body = {
+        "msg": "Hello, this is your GET /user response ",
+        "starship": user.serialize()
+    }
+
+    return jsonify(response_body), 200  
+
+
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
