@@ -38,8 +38,52 @@ def handle_hello():
         "user": user.serialize()
     }
 
+    return jsonify(response_body), 200 
+
+    
+@app.route('/person', methods=['GET'])
+def person():
+    person = Person.query.get(1)
+    response_body = {
+        "msg": "Hello, this is your GET /people response ",
+        "person": person.serialize()
+    }
+
     return jsonify(response_body), 200
 
+
+@app.route('/planet', methods=['GET'])
+def planet():
+    name = Planet.query.get(1)
+    response_body = {
+        "msg": "Hello, this is your GET /planet response ",
+        "name": name.serialize()
+    }
+
+    return jsonify(response_body), 200  
+
+@app.route('/starship', methods=['GET'])
+def starship():
+    name = Starship.query.get(1)
+    response_body = {
+        "msg": "Hello, this is your GET /starship response ",
+        "name": name.serialize()
+    }
+
+    return jsonify(response_body), 200 
+
+# This are the POST    
+
+@app.route('/user', methods=['POST'])
+def handle_user():
+    user = User.query.get(1)
+    response_body = {
+        "msg": "Hello, this is your POST /user response ",
+        "user": user.serialize()
+    }
+
+    return jsonify(response_body), 200
+    
 
 @app.route('/person', methods=['POST'])
 def handle_person():
@@ -71,6 +115,7 @@ def handle_starship():
 
     return jsonify(response_body), 200  
 
+# This are the DELETE
 
 @app.route('/people/<int:id>', methods=['DELETE'])
 def delete_people(id):

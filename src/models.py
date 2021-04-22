@@ -19,6 +19,7 @@ favorites_starships = db.Table('user_starships', db.Model.metadata,
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     username = db.Column(db.String(80), unique=False, nullable=False) 
     password = db.Column(db.String(80), unique=False, nullable=False)
@@ -34,7 +35,9 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            "favorite_people": list(map(lambda x: x.serialize(), self.people))
+            "favorite_people": list(map(lambda x: x.serialize(), self.people)),
+            "favorite_planets": list(map(lambda x: x.serialize(), self.planets)),
+            "favorite_starships": list(map(lambda x: x.serialize(), self.starships))
             # do not serialize the password, its a security breach
         }                               
 
@@ -61,7 +64,8 @@ class Person(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "homeworld": self.homeworld.name
+            "homeworld": self.homeworld.name,
+            "height": self.height
         }   
 
 class Planet(db.Model):
