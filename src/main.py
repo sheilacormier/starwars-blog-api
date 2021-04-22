@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User
+from models import db, User, Person, Planet, Starship
 #from models import Person
 
 app = Flask(__name__)
@@ -41,53 +41,53 @@ def handle_hello():
     return jsonify(response_body), 200
 
 
-# @app.route('/people', methods=['POST'])
-# def handle_hello():
-#     user = User.query.get(1)
-#     response_body = {
-#         "msg": "Hello, this is your POST /people response ",
-#         "people": people.serialize()
-#     }
+@app.route('/person', methods=['POST'])
+def handle_person():
+    user = User.query.get(1)
+    response_body = {
+        "msg": "Hello, this is your POST /people response ",
+        "person": person.serialize()
+    }
 
-#     return jsonify(response_body), 200
+    return jsonify(response_body), 200
 
-# @app.route('/planet', methods=['POST'])
-# def handle_hello():
-#     user = User.query.get(1)
-#     response_body = {
-#         "msg": "Hello, this is your POST /planet response ",
-#         "planet": planet.serialize()
-#     }
+@app.route('/planet', methods=['POST'])
+def handle_planet():
+    user = User.query.get(1)
+    response_body = {
+        "msg": "Hello, this is your POST /planet response ",
+        "planet": planet.serialize()
+    }
 
-#     return jsonify(response_body), 200    
+    return jsonify(response_body), 200    
 
-# @app.route('/starship', methods=['POST'])
-# def handle_hello():
-#     user = User.query.get(1)
-#     response_body = {
-#         "msg": "Hello, this is your POST /starship response ",
-#         "starship": starship.serialize()
-#     }
+@app.route('/starship', methods=['POST'])
+def handle_starship():
+    user = User.query.get(1)
+    response_body = {
+        "msg": "Hello, this is your POST /starship response ",
+        "starship": starship.serialize()
+    }
 
-#     return jsonify(response_body), 200  
-
-
-# @app.route('/people/<int:id>', methods=['DELETE'])
-# def delete_people(id):
-#     people.pop(id)
-#     return jsonify(people), 200
+    return jsonify(response_body), 200  
 
 
-# @app.route('/planet/<int:id>', methods=['DELETE'])
-# def delete_planet(id):
-#     planet.pop(id)
-#     return jsonify(planet), 200
+@app.route('/people/<int:id>', methods=['DELETE'])
+def delete_people(id):
+    people.pop(id)
+    return jsonify(people), 200
 
 
-# @app.route('/starship/<int:id>', methods=['DELETE'])
-# def delete_starship(id):
-#     starship.pop(id)
-#     return jsonify(starship), 200  
+@app.route('/planet/<int:id>', methods=['DELETE'])
+def delete_planet(id):
+    planet.pop(id)
+    return jsonify(planet), 200
+
+
+@app.route('/starship/<int:id>', methods=['DELETE'])
+def delete_starship(id):
+    starship.pop(id)
+    return jsonify(starship), 200  
 
 
 
