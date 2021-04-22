@@ -1,6 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
 
-
 db = SQLAlchemy()
 
 # Define association tables to create a many to many for the favorites
@@ -24,15 +23,12 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=False, nullable=False) 
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    people = db.relationship("Person", secondary=favorites_people, lazy='subquery',
-        backref=db.backref('people', lazy=True))
-    planets = db.relationship("Planet", secondary=favorites_planets, lazy='subquery',
-        backref=db.backref('planets', lazy=True))
-    starships = db.relationship("Starship", secondary=favorites_starships, lazy='subquery',
-        backref=db.backref('starships', lazy=True))
+    people = db.relationship("Person", secondary=favorites_people)
+    planets = db.relationship("Planet", secondary=favorites_planets)
+    starships = db.relationship("Starship", secondary=favorites_starships)
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<User %r>' % self.name
 
     def serialize(self):
         return {
@@ -58,6 +54,9 @@ class Person(db.Model):
     name = db.Column(db.String(50), nullable=False)
     photo_url: db.Column(db.String)      
 
+    def __repr__(self):
+        return '<Person %r>' % self.name
+    
     def serialize(self):
         return {
             "id": self.id,
@@ -81,7 +80,16 @@ class Planet(db.Model):
     surface_water = db.Column(db.String(50))
     name = db.Column(db.String(50), nullable=False)
     photo_url: db.Column(db.String)
- 
+
+    def __repr__(self):
+        return '<Planet %r>' % self.name
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
+
 class Starship(db.Model):
     __tablename__ = 'starships'
     # Here we define columns for the Starships   
@@ -99,4 +107,13 @@ class Starship(db.Model):
     cargo_capacity = db.Column(db.String(50))
     consumables = db.Column(db.String(50))
     name = db.Column(db.String(50), nullable=False)
-    photo_url: db.Column(db.String)   
+    photo_url: db.Column(db.String)
+
+    def __repr__(self):
+        return '<Starship %r>' % self.name
+    
+    def serialize(self):
+        return{
+            "id": self.id,
+            "name": self.name
+        }    
