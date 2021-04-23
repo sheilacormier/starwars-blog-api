@@ -65,18 +65,6 @@ def update_user_favorites():
 
     user = User.query.get(user_id)
 
-    if resource_type == "person":
-        resource = Person.query.get(resource_id)
-        user.people.append(resource)    
-
-    if resource_type == "planet":
-        resource = Planet.query.get(resource_id)
-        user.planets.append(resource) 
-
-    if resource_type == "starship":
-        resource = Starship.query.get(resource_id)
-        user.starships.append(resource)
-
     if user_id is None:
         return jsonify({"msg": "Missing required parameter user_id"}), 401
 
@@ -87,9 +75,21 @@ def update_user_favorites():
         return jsonify({"msg": "Missing required parameter id"}), 401
 
     if resource_type is None:
-        return jsonify({"msg": "Missing required parameter type"}), 401      
+        return jsonify({"msg": "Missing required parameter type"}), 401
 
-    db.session.commit()            
+    db.session.commit()
+
+    if resource_type == "person":
+        resource = Person.query.get(resource_id)
+        user.people.append(resource)    
+
+    if resource_type == "planet":
+        resource = Planet.query.get(resource_id)
+        user.planets.append(resource) 
+
+    if resource_type == "starship":
+        resource = Starship.query.get(resource_id)
+        user.starships.append(resource)               
     
     response_body = {
         "msg": "Resource added successfully",
