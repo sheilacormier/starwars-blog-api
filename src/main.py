@@ -9,7 +9,6 @@ from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
 from models import db, User, Person, Planet, Starship
-#from models import Person, Planet, Starship
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -21,8 +20,8 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_CONNECTION_STRING')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# Setup the Flask-JWT-Extended extension
-app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+# Below app sets up the Flask-JWT-Extended extension
+app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this later!
 jwt = JWTManager(app)
 MIGRATE = Migrate(app, db)
 db.init_app(app)
@@ -52,28 +51,57 @@ def login():
 
     user = User.query.filter_by(username=username).first()
     if user is None or password != user.password:
-        return jsonify({"msg": "Bad username or password"}), 401
+        return jsonify({"msg": "Incorrect username or password"}), 401
 
     access_token = create_access_token(identity=username)
     return jsonify(access_token=access_token)
 
+# PUT request used to send data to the API to update or create user
+@app.route('/user', methods=['PUT']) 
+def update_user_favorites():
+    user_id = request.json.get("user_id", None)
+    resource_id = user_id = request.json.get("id", None)
+    resource_type = user_id = request.json.get("type", None)
 
+    user = User.query.get(user_id)
+
+    if resource_type == "person":
+        resource = Person.query.get(resource_id)
+        user.people.append(resource)
+    
+    if person is None or user_id != user.user_id:
+        return jsonify({"msg": "No resource has been added/updated"}), 401
+
+    if resource_type == "planet":
+        resource = Planet.query.get(resource_id)
+        user.planets.append(resource)
+    if resource_type == "starship":
+        resource = Starship.query.get(resource_id)
+        user.starships.append(resource)
+    
+    response_body = {
+        "msg": "Resource added successfully",
+        "user": user.serialize()
+    }
+
+# GET request used to retreive data from server from user
 @app.route('/user', methods=['GET'])
-@jwt_required()
-def handle_hello():
+# @jwt_required()
+def retrive_user():
     user = User.query.get(1)
     response_body = {
-        "msg": "Hello, this is your GET /user response ",
+        "msg": "Hello, this is your GET /user response",
         "user": user.serialize()
     }
 
     return jsonify(response_body), 200 
 
+# POST request used to send data to the API to create or udpate user
 @app.route('/user', methods=['POST'])
 def handle_user():
     user = User.query.get(1)
     response_body = {
-        "msg": "Hello, this is your POST /user response ",
+        "msg": "Hello, this is your POST /user response",
         "user": user.serialize()
     }
 
@@ -81,23 +109,24 @@ def handle_user():
 
 
 # PERSON ROUTES
-    
+
+# GET request used to retreive data from server from person
 @app.route('/person', methods=['GET'])
-def person():
+def retrive_person():
     person = Person.query.get(1)
     response_body = {
-        "msg": "Hello, this is your GET /people response ",
+        "msg": "Hello, this is your GET /people response",
         "person": person.serialize()
     }
 
     return jsonify(response_body), 200
 
-
+# POST request used to send data to the API to create or udpate person
 @app.route('/person', methods=['POST'])
 def handle_person():
     user = User.query.get(1)
     response_body = {
-        "msg": "Hello, this is your POST /people response ",
+        "msg": "Hello, this is your POST /people response",
         "person": person.serialize()
     }
 
@@ -105,22 +134,23 @@ def handle_person():
 
 # PLANET ROUTES
 
+# GET request used to retreive data from server from planet
 @app.route('/planet', methods=['GET'])
-def planet():
+def retrive_planet():
     name = Planet.query.get(1)
     response_body = {
-        "msg": "Hello, this is your GET /planet response ",
+        "msg": "Hello, this is your GET /planet response",
         "name": name.serialize()
     }
 
     return jsonify(response_body), 200  
 
-
+# POST request used to send data to the API to create or udpate planet
 @app.route('/planet', methods=['POST'])
 def handle_planet():
     user = User.query.get(1)
     response_body = {
-        "msg": "Hello, this is your POST /planet response ",
+        "msg": "Hello, this is your POST /planet response",
         "planet": planet.serialize()
     }
 
@@ -128,22 +158,23 @@ def handle_planet():
 
 # STARSHIP ROUTES
 
+# GET request used to retreive data from server from starship
 @app.route('/starship', methods=['GET'])
-def starship():
+def retrive_starship():
     name = Starship.query.get(1)
     response_body = {
-        "msg": "Hello, this is your GET /starship response ",
+        "msg": "Hello, this is your GET /starship response",
         "name": name.serialize()
     }
 
     return jsonify(response_body), 200 
 
-
+# POST request used to send data to the API to create or udpate starship
 @app.route('/starship', methods=['POST'])
 def handle_starship():
     user = User.query.get(1)
     response_body = {
-        "msg": "Hello, this is your POST /starship response ",
+        "msg": "Hello, this is your POST /starship response",
         "starship": starship.serialize()
     }
 
