@@ -68,13 +68,14 @@ def update_user_favorites():
     if resource_type == "person":
         resource = Person.query.get(resource_id)
         user.people.append(resource)
-    
-    if person is None or user_id != user.user_id:
-        return jsonify({"msg": "No resource has been added/updated"}), 401
+
+    # if person is None or user_id != user.user_id:
+    #     return jsonify({"msg": "No resource has been added/updated"}), 401    
 
     if resource_type == "planet":
         resource = Planet.query.get(resource_id)
         user.planets.append(resource)
+
     if resource_type == "starship":
         resource = Starship.query.get(resource_id)
         user.starships.append(resource)
@@ -83,6 +84,8 @@ def update_user_favorites():
         "msg": "Resource added successfully",
         "user": user.serialize()
     }
+        
+
 
 # GET request used to retreive data from server from user
 @app.route('/user', methods=['GET'])
