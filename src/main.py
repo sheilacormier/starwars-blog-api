@@ -21,7 +21,7 @@ app.url_map.strict_slashes = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_CONNECTION_STRING')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Below app sets up the Flask-JWT-Extended extension
-app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this later!
+app.config["JWT_SECRET_KEY"] = "Sw*J@Y%Z4n"  # Password can be change to what you would like.
 jwt = JWTManager(app)
 MIGRATE = Migrate(app, db)
 db.init_app(app)
@@ -56,28 +56,26 @@ def login():
     access_token = create_access_token(identity=username)
     return jsonify(access_token=access_token)
 
-# PUT request used to send data to the API to update or create user
+# PUT request used to send data to the API to update or create favorites
 @app.route('/user', methods=['PUT']) 
 def update_user_favorites():
     user_id = request.json.get("user_id", None)
     resource_id = user_id = request.json.get("id", None)
     resource_type = user_id = request.json.get("type", None)
 
-    user = User.query.get(user_id)
-
     if user_id is None:
-        return jsonify({"msg": "Missing required parameter user_id"}), 401
+        return jsonify({"msg": "Missing required user_id"}), 401
 
     if user is None:
         return jsonify({"msg": "Could not find specified user"}), 404
 
     if resource_id is None:
-        return jsonify({"msg": "Missing required parameter id"}), 401
+        return jsonify({"msg": "Missing required resource id"}), 401
 
     if resource_type is None:
-        return jsonify({"msg": "Missing required parameter type"}), 401
+        return jsonify({"msg": "Missing required resource type"}), 401
 
-    db.session.commit()
+    user = User.query.get(user_id)
 
     if resource_type == "person":
         resource = Person.query.get(resource_id)
@@ -89,16 +87,21 @@ def update_user_favorites():
 
     if resource_type == "starship":
         resource = Starship.query.get(resource_id)
-        user.starships.append(resource)               
+        user.starships.append(resource)
+
+    db.session.commit()                   
     
     response_body = {
         "msg": "Resource added successfully",
         "user": user.serialize()
     }
         
-# GET request used to retreive data from server from user
+# GET request used to retreive data from server from the user
 @app.route('/user', methods=['GET'])
+
+# Protect a route with jwt_required, which will kick out requests without a valid JWT present. Currently I have commented out below.
 # @jwt_required()
+
 def retrive_user():
     user = User.query.get(1)
     response_body = {
@@ -122,7 +125,7 @@ def handle_user():
 
 # PERSON ROUTES
 
-# GET request used to retreive data from server from person
+# GET request used to retreive data from server from the person
 @app.route('/person', methods=['GET'])
 def retrive_person():
     person = Person.query.get(1)
@@ -146,7 +149,7 @@ def handle_person():
 
 # PLANET ROUTES
 
-# GET request used to retreive data from server from planet
+# GET request used to retreive data from server from the planet
 @app.route('/planet', methods=['GET'])
 def retrive_planet():
     name = Planet.query.get(1)
@@ -170,7 +173,7 @@ def handle_planet():
 
 # STARSHIP ROUTES
 
-# GET request used to retreive data from server from starship
+# GET request used to retreive data from server from the starship
 @app.route('/starship', methods=['GET'])
 def retrive_starship():
     name = Starship.query.get(1)
