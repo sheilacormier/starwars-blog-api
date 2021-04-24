@@ -62,19 +62,20 @@ def update_user_favorites():
     resource_id = user_id = request.json.get("id", None)
     resource_type = user_id = request.json.get("type", None)
 
+# Test presence of variables
     if user_id is None:
         return jsonify({"msg": "Missing required user_id"}), 401
-
-    if user is None:
-        return jsonify({"msg": "Could not find specified user"}), 404
-
     if resource_id is None:
         return jsonify({"msg": "Missing required resource id"}), 401
-
     if resource_type is None:
         return jsonify({"msg": "Missing required resource type"}), 401
 
+# Use variables
+
     user = User.query.get(user_id)
+
+    if user is None:
+        return jsonify({"msg": "Could not find specified user"}), 404
 
     if resource_type == "person":
         resource = Person.query.get(resource_id)
