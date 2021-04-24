@@ -55,7 +55,28 @@ def login():
     access_token = create_access_token(identity=username)
     return jsonify(access_token=access_token)
 
-# PUT request used to send data to the API to update or create favorites
+      
+#Endpoint to retrieve all users
+@app.route('/user', methods=['GET'])
+def handle_users():
+    users = User.query.all()
+    response_body = {
+        "msg": "These are all users",
+        "users": list(map(lambda x:x.serialize(),users))
+    }
+    return jsonify(response_body), 200 
+
+#Endpoint to retrieve one user by id
+@app.route('/user/:<id>', methods=['GET'])
+def get_user_by_id(id):
+    user = User.query.get(1)
+    response_body = {
+        "user": user.serialize()
+    }
+    return jsonify(response_body), 200
+
+
+#Endpoint to add to favorites
 @app.route('/user', methods=['PUT']) 
 def update_user_favorites():
     user_id = request.json.get("user_id", None)
@@ -71,7 +92,6 @@ def update_user_favorites():
         return jsonify({"msg": "Missing required resource type"}), 401
 
 # Use of variables
-
     user = User.query.get(user_id)
 
     if user is None:
@@ -95,37 +115,9 @@ def update_user_favorites():
         "msg": "Resource added successfully",
         "user": user.serialize()
     }
-        
-# GET request used to retreive data from server from the user
-@app.route('/user', methods=['GET'])
-
-# Protect a route with jwt_required, which will kick out requests without a valid JWT present. Currently I have commented out below.
-# @jwt_required()
-
-def retrive_user():
-    user = User.query.get(1)
-    response_body = {
-        "msg": "Hello, this is your GET /user response",
-        "user": user.serialize()
-    }
-
-    return jsonify(response_body), 200 
-
-# POST request used to send data to the API to create or udpate user
-@app.route('/user', methods=['POST'])
-def handle_user():
-    user = User.query.get(1)
-    response_body = {
-        "msg": "Hello, this is your POST /user response",
-        "user": user.serialize()
-    }
-
-    return jsonify(response_body), 200
 
 
-# PERSON ROUTES
-
-# GET request used to retreive data from server from the person
+#Endpoint to fetch all people
 @app.route('/people', methods=['GET'])
 def get_all_people():
     people = Person.query.all()
@@ -134,82 +126,56 @@ def get_all_people():
     }
     return jsonify(response_body), 200
 
-# POST request used to send data to the API to create or udpate person
-@app.route('/person', methods=['POST'])
-def post_all_people():
-    user = User.query.get(1)
+#Endpoint to fetch one people by id
+@app.route('/people/<int:id>', methods=['GET'])
+def get_person_by_id(id):
+    person = Person.query.get(id)
     response_body = {
-        "msg": "Hello, this is your POST /people response",
         "person": person.serialize()
-    }
-    return jsonify(response_body), 200   
-
-# PLANET ROUTES
-
-# GET request used to retreive data from server from the planet
-@app.route('/planet', methods=['GET'])
-def retrive_planet():
-    planet = Planet.query.all()
-    response_body = {
-        "planet": list(map(lambda x: x.serialize() , planet))
-    }
-    return jsonify(response_body), 200  
-
-# POST request used to send data to the API to create or udpate planet
-@app.route('/planet', methods=['POST'])
-def handle_planet():
-    user = User.query.get(1)
-    response_body = {
-        "msg": "Hello, this is your POST /planet response",
-        "planet": planet.serialize()
-    }
-    return jsonify(response_body), 200   
-
-# STARSHIP ROUTES
-
-# GET request used to retreive data from server from the starship
-@app.route('/starship', methods=['GET'])
-def retrive_starship():
-    starship = Starship.query.all()
-    response_body = {
-        "msg": "Hello, this is your GET /starship response",
-        "name": name.serialize()
-    }
-    return jsonify(response_body), 200 
-
-# POST request used to send data to the API to create or udpate starship
-@app.route('/starship', methods=['POST'])
-def handle_starship():
-    user = User.query.get(1)
-    response_body = {
-        "msg": "Hello, this is your POST /starship response",
-        "starship": starship.serialize()
     }
     return jsonify(response_body), 200
 
 
 
-
-# DELETE ROUTES - NOT NEEDED FOR THIS PROJECT
-
-# @app.route('/people/<int:id>', methods=['DELETE'])
-# def delete_people(id):
-#     people.pop(id)
-#     return jsonify(people), 200
-
-
-# @app.route('/planet/<int:id>', methods=['DELETE'])
-# def delete_planet(id):
-#     planet.pop(id)
-#     return jsonify(planet), 200
+#Endpoint to fetch planets
+@app.route('/planets', methods=['GET'])
+def get_planets():
+    planets = Planet.query.all()
+    response_body = {
+        "planets": list(map(lambda x: x.serialize() , planets))
+    }
+    return jsonify(response_body), 200  
 
 
-# @app.route('/starship/<int:id>', methods=['DELETE'])
-# def delete_starship(id):
-#     starship.pop(id)
-#     return jsonify(starship), 200
+#Endpoint to fetch one planet by id
+@app.route('/planets/<int:id>', methods=['GET'])
+def get_planet_by_id(id):
+    planet = Planet.query.get(id)
+    response_body = {
+        "planet": planet.serialize()
+    }
+
+    return jsonify(response_body), 200
 
 
+
+#Endpoint to fetch all starships
+@app.route('/starships', methods=['GET'])
+def get_starships():
+    starships = Starship.query.all()
+    response_body = {
+        "starships": list(map(lambda x: x.serialize() , starships))
+    }
+    return jsonify(response_body), 200 
+
+#Endpoint to fetch one starship by id
+@app.route('/starships/<int:id>', methods=['GET'])
+def get_starship_by_id(id):
+    starship = Starship.query.get(id)
+    response_body = {
+        "starship": starship.serialize()
+    }
+    return jsonify(response_body), 200
 
 
 

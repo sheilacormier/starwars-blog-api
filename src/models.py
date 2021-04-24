@@ -55,8 +55,7 @@ class Person(db.Model):
     birth_year = db.Column(db.String(50))
     gender = db.Column(db.String(50))
     name = db.Column(db.String(50), nullable=False)
-    photo_url= db.Column(db.String(200)),
-    description = db.Column(db.String(1000)) 
+    photo_url= db.Column(db.String(200))   
 
     def __repr__(self):
         return '<Person %r>' % self.name
@@ -73,8 +72,7 @@ class Person(db.Model):
             "eye_color": self.eye_color,
             "birth_year": self.birth_year,
             "gender": self.gender,
-            "photo_url": self.photo_url,
-            "description": self.description
+            "photo_url": self.photo_url,            
         }   
 
 class Planet(db.Model):
@@ -92,8 +90,7 @@ class Planet(db.Model):
     climate = db.Column(db.String(50))
     terrain = db.Column(db.String(50))
     surface_water = db.Column(db.String(50))    
-    photo_url= db.Column(db.String(200))
-    description = db.Column(db.String(1000))
+    photo_url= db.Column(db.String(200))    
 
     def __repr__(self):
         return '<Planet %r>' % self.name
@@ -110,8 +107,7 @@ class Planet(db.Model):
             "climate": self.climate,
             "terrain": self.terrain,
             "surface_water": self.surface_water,
-            "photo_url": self.photo_url,
-            "description": self.description
+            "photo_url": self.photo_url,            
         }
 
 class Starship(db.Model):
@@ -131,8 +127,7 @@ class Starship(db.Model):
     MGLT = db.Column(db.String(50))
     cargo_capacity = db.Column(db.String(50))
     consumables = db.Column(db.String(50))    
-    photo_url= db.Column(db.String(200))
-    description = db.Column(db.String(1000))
+    photo_url= db.Column(db.String(200))    
 
     def __repr__(self):
         return '<Starship %r>' % self.name
@@ -153,6 +148,5 @@ class Starship(db.Model):
             "MGLT": self.MGLT,
             "cargo_capacity": self.cargo_capacity,
             "consumables": self.consumables,
-            "photo_url": self.photo_url,
-            "description": self.description
+            "photo_url": self.photo_url,            
         }    
