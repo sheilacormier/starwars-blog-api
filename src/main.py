@@ -70,7 +70,7 @@ def update_user_favorites():
     if resource_type is None:
         return jsonify({"msg": "Missing required resource type"}), 401
 
-# Use variables
+# Use of variables
 
     user = User.query.get(user_id)
 
