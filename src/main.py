@@ -126,25 +126,22 @@ def handle_user():
 # PERSON ROUTES
 
 # GET request used to retreive data from server from the person
-@app.route('/person', methods=['GET'])
-def retrive_person():
-    person = Person.query.get(1)
+@app.route('/people', methods=['GET'])
+def get_all_people():
+    people = Person.query.all()
     response_body = {
-        "msg": "Hello, this is your GET /people response",
-        "person": person.serialize()
+        "people": list(map(lambda x: x.serialize() , people))
     }
-
     return jsonify(response_body), 200
 
 # POST request used to send data to the API to create or udpate person
 @app.route('/person', methods=['POST'])
-def handle_person():
+def post_all_people():
     user = User.query.get(1)
     response_body = {
         "msg": "Hello, this is your POST /people response",
         "person": person.serialize()
     }
-
     return jsonify(response_body), 200   
 
 # PLANET ROUTES
@@ -152,12 +149,10 @@ def handle_person():
 # GET request used to retreive data from server from the planet
 @app.route('/planet', methods=['GET'])
 def retrive_planet():
-    name = Planet.query.get(1)
+    planet = Planet.query.all()
     response_body = {
-        "msg": "Hello, this is your GET /planet response",
-        "name": name.serialize()
+        "planet": list(map(lambda x: x.serialize() , planet))
     }
-
     return jsonify(response_body), 200  
 
 # POST request used to send data to the API to create or udpate planet
@@ -168,7 +163,6 @@ def handle_planet():
         "msg": "Hello, this is your POST /planet response",
         "planet": planet.serialize()
     }
-
     return jsonify(response_body), 200   
 
 # STARSHIP ROUTES
@@ -176,12 +170,11 @@ def handle_planet():
 # GET request used to retreive data from server from the starship
 @app.route('/starship', methods=['GET'])
 def retrive_starship():
-    name = Starship.query.get(1)
+    starship = Starship.query.all()
     response_body = {
         "msg": "Hello, this is your GET /starship response",
         "name": name.serialize()
     }
-
     return jsonify(response_body), 200 
 
 # POST request used to send data to the API to create or udpate starship
@@ -192,7 +185,6 @@ def handle_starship():
         "msg": "Hello, this is your POST /starship response",
         "starship": starship.serialize()
     }
-
     return jsonify(response_body), 200
 
 

@@ -55,7 +55,8 @@ class Person(db.Model):
     birth_year = db.Column(db.String(50))
     gender = db.Column(db.String(50))
     name = db.Column(db.String(50), nullable=False)
-    photo_url: db.Column(db.String)      
+    photo_url= db.Column(db.String(200)),
+    description = db.Column(db.String(1000)) 
 
     def __repr__(self):
         return '<Person %r>' % self.name
@@ -65,7 +66,15 @@ class Person(db.Model):
             "id": self.id,
             "name": self.name,
             "homeworld": self.homeworld.name,
-            "height": self.height
+            "height": self.height,
+            "mass": self.mass,
+            "hair_color": self.hair_color,
+            "skin_color": self.skin_color,
+            "eye_color": self.eye_color,
+            "birth_year": self.birth_year,
+            "gender": self.gender,
+            "photo_url": self.photo_url,
+            "description": self.description
         }   
 
 class Planet(db.Model):
@@ -74,6 +83,7 @@ class Planet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     # relationship for the homeworld for people
     people = db.relationship("Person", backref='homeworld', lazy=True)
+    name = db.Column(db.String(50), nullable=False)
     diameter = db.Column(db.String(50))
     rotation_period = db.Column(db.String(50))
     orbital_period = db.Column(db.String(50))
@@ -81,9 +91,9 @@ class Planet(db.Model):
     population = db.Column(db.String(50))
     climate = db.Column(db.String(50))
     terrain = db.Column(db.String(50))
-    surface_water = db.Column(db.String(50))
-    name = db.Column(db.String(50), nullable=False)
-    photo_url: db.Column(db.String)
+    surface_water = db.Column(db.String(50))    
+    photo_url= db.Column(db.String(200))
+    description = db.Column(db.String(1000))
 
     def __repr__(self):
         return '<Planet %r>' % self.name
@@ -91,13 +101,24 @@ class Planet(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "name": self.name
+            "name": self.name,
+            "diameter": self.diameter,
+            "rotation_period": self.rotation_period,
+            "orbital_period": self.orbital_period,
+            "gravity": self.gravity,
+            "population": self.population,
+            "climate": self.climate,
+            "terrain": self.terrain,
+            "surface_water": self.surface_water,
+            "photo_url": self.photo_url,
+            "description": self.description
         }
 
 class Starship(db.Model):
     __tablename__ = 'starships'
     # Here we define columns for the Starships   
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
     model = db.Column(db.String(50))
     starship_class = db.Column(db.String(50))
     manufacturer = db.Column(db.String(50))
@@ -109,9 +130,9 @@ class Starship(db.Model):
     hyperdrive_rating = db.Column(db.String(50))
     MGLT = db.Column(db.String(50))
     cargo_capacity = db.Column(db.String(50))
-    consumables = db.Column(db.String(50))
-    name = db.Column(db.String(50), nullable=False)
-    photo_url: db.Column(db.String)
+    consumables = db.Column(db.String(50))    
+    photo_url= db.Column(db.String(200))
+    description = db.Column(db.String(1000))
 
     def __repr__(self):
         return '<Starship %r>' % self.name
@@ -119,5 +140,19 @@ class Starship(db.Model):
     def serialize(self):
         return{
             "id": self.id,
-            "name": self.name
+            "name": self.name,
+            "model": self.model,
+            "starship_class": self.starship_class,
+            "manufacturer": self.manufacturer,
+            "cost_in_credits": self.cost_in_credits,
+            "length": self.length,
+            "crew": self.crew,
+            "passengers": self.passengers,
+            "max_atmosphering_speed": self.max_atmosphering_speed,
+            "hyperdrive_rating": self.hyperdrive_rating,
+            "MGLT": self.MGLT,
+            "cargo_capacity": self.cargo_capacity,
+            "consumables": self.consumables,
+            "photo_url": self.photo_url,
+            "description": self.description
         }    
