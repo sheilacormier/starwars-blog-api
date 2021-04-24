@@ -69,7 +69,7 @@ def handle_users():
 #Endpoint to retrieve one user by id
 @app.route('/user/:<id>', methods=['GET'])
 def get_user_by_id(id):
-    user = User.query.get(1)
+    user = User.query.get(id)
     response_body = {
         "user": user.serialize()
     }
