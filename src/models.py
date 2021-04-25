@@ -72,7 +72,7 @@ class Person(db.Model):
             "eye_color": self.eye_color,
             "birth_year": self.birth_year,
             "gender": self.gender,
-            "photo_url": self.photo_url,            
+            "photo_url": self.photo_url            
         }   
 
 class Planet(db.Model):
@@ -107,7 +107,7 @@ class Planet(db.Model):
             "climate": self.climate,
             "terrain": self.terrain,
             "surface_water": self.surface_water,
-            "photo_url": self.photo_url,            
+            "photo_url": self.photo_url            
         }
 
 class Starship(db.Model):
@@ -148,5 +148,5 @@ class Starship(db.Model):
             "MGLT": self.MGLT,
             "cargo_capacity": self.cargo_capacity,
             "consumables": self.consumables,
-            "photo_url": self.photo_url,            
+            "photo_url": self.photo_url          
         }    
