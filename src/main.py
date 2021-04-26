@@ -67,7 +67,7 @@ def handle_users():
     return jsonify(response_body), 200 
 
 #Endpoint to retrieve one user by id
-@app.route('/user/:<id>', methods=['GET'])
+@app.route('/users/<int:id>', methods=['GET'])
 def get_user_by_id(id):
     user = User.query.get(id)
     response_body = {
